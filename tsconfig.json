@@ -23,7 +23,7 @@
       "types/*": ["types/*"],
       "pages/*": ["pages/*"],
       "styles/*": ["styles/*"],
-      "layout/*": ["layout/*"],
+      "@/layout/*": ["layout/*"],
       "modules/*": ["modules/*"],
       "context/*": ["context/*"],
       "configs/*": ["configs/*"],
