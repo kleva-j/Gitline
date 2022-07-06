@@ -1,14 +1,15 @@
-import { MantineProvider, ColorSchemeProvider, ColorScheme } from '@mantine/core';
-import { useLocalStorage, useHotkeys, useColorScheme } from '@mantine/hooks';
+import { ColorSchemeProvider, MantineProvider, ColorScheme } from "@mantine/core";
+import { useLocalStorage, useHotkeys, useColorScheme } from "@mantine/hooks";
 import { AppProps, AppContext } from "next/app";
 import { Seo } from "src/components/Seo";
-import { Layout } from 'layout';
+
+import { Layout } from "../layout";
 
 const App = (props: AppProps) => {
   const { Component, pageProps } = props;
-  const preferredColorScheme = useColorScheme()
+  const preferredColorScheme = useColorScheme();
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
-    key: 'mantine-color-scheme',
+    key: "gitline-color-scheme",
     defaultValue: preferredColorScheme,
     getInitialValueInEffect: true,
   });
@@ -16,7 +17,7 @@ const App = (props: AppProps) => {
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
 
-  useHotkeys([['mod+J', () => toggleColorScheme()]]);
+  useHotkeys([["mod+J", () => toggleColorScheme()]]);
 
   return (
     <>

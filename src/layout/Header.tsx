@@ -29,7 +29,7 @@ export const PageHeader = () => {
           justifyContent: "space-between",
         }}
       >
-        <Title order={3}>Gitline Jobs</Title>
+        <Title order={3}>Gitline</Title>
         <Group>
           {route && (
             <NavLink size="lg" href="/">

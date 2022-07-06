@@ -1,4 +1,4 @@
-import { AppShell, useMantineTheme, Container } from "@mantine/core";
+import { AppShell, useMantineTheme } from "@mantine/core";
 import { FooterMenu, PageHeader } from "src/layout";
 import { ReactNode } from "react";
 
