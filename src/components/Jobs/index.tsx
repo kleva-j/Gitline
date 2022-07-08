@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Container,
   TextInput,
   Checkbox,
@@ -24,12 +25,13 @@ export const JobsComponent = ({ jobs }: JobsComponentProps) => {
         <Stack>
           <Grid columns={12} grow sx={{ maxWidth: 800 }}>
             <Grid.Col span={10}>
-              <TextInput
+              <Autocomplete
                 size="md"
                 radius="md"
-                type="search"
+                limit={2}
                 placeholder="Search for jobs"
                 icon={<BiSearch size={18} />}
+                data={['React', 'Angular', 'Svelte', 'Vue']}
               />
             </Grid.Col>
             <Grid.Col span={2}>
@@ -67,7 +69,7 @@ export const JobsComponent = ({ jobs }: JobsComponentProps) => {
               ]}
               clearable
             />
-             <Select
+            <Select
               placeholder="Salary"
               size="xs"
               data={[
@@ -93,11 +95,11 @@ export const JobsComponent = ({ jobs }: JobsComponentProps) => {
               ]}
               clearable
             />
-            <Checkbox label="Remote" size="xs"/>
+            <Checkbox label="Remote" size="xs" />
           </Group>
         </Stack>
       </PageHeader>
-      <PageSection />
+      <PageSection jobs={jobs} />
     </Container>
   );
 };
