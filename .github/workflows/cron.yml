@@ -1,0 +1,12 @@
+name: fetch-jobs-cron
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call our JOBS API route
+        run: |
+          curl --request POST \
+          --url 'https://gitline-six.vercel.app/api/jobs'
