@@ -2,15 +2,12 @@ import { ColorSchemeProvider, MantineProvider, ColorScheme } from "@mantine/core
 import { useLocalStorage, useHotkeys, useColorScheme } from "@mantine/hooks";
 import { AppProps, AppContext } from "next/app";
 import { Seo } from "src/components/Seo";
-
 import { Layout } from "../layout";
 
-const App = (props: AppProps) => {
-  const { Component, pageProps } = props;
-  const preferredColorScheme = useColorScheme();
+const App = ({ Component, pageProps }: AppProps) => {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
     key: "gitline-color-scheme",
-    defaultValue: preferredColorScheme,
+    defaultValue: useColorScheme(),
     getInitialValueInEffect: true,
   });
 
@@ -29,7 +26,7 @@ const App = (props: AppProps) => {
         <MantineProvider
           withGlobalStyles
           withNormalizeCSS
-          theme={{ colorScheme }}
+          theme={{ colorScheme, fontFamily: 'Roboto', }}
         >
           <Layout>
             <Component {...pageProps} />
@@ -40,7 +37,7 @@ const App = (props: AppProps) => {
   );
 };
 
-const base = "http://localhost:3000";
+const base = process.env.BASE_URI || "";
 
 App.getInitialProps = async function ({ router }: AppContext): Promise<any> {
   return { canonical: base + router.asPath };
