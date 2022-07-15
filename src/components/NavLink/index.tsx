@@ -1,14 +1,9 @@
-import { Button, MantineSize } from "@mantine/core";
+import { Button } from "@mantine/core";
 import { colorMixer } from "src/util";
-import { ReactNode } from "react";
 
 import Link from "next/link";
 
-interface NavLinkProps {
-  href: string;
-  children: string | ReactNode;
-  size?: MantineSize;
-}
+import { NavLinkProps } from '../../../types';
 
 export const NavLink = ({ href, children, size = "sm" }: NavLinkProps) => {
   return (

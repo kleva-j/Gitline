@@ -26,7 +26,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <MantineProvider
           withGlobalStyles
           withNormalizeCSS
-          theme={{ colorScheme, fontFamily: 'Roboto', }}
+          theme={{ colorScheme, fontFamily: 'Lato, Roboto', }}
         >
           <Layout>
             <Component {...pageProps} />

@@ -1,26 +1,23 @@
 import { NextApiRequest, NextApiResponse } from "next";
-
 import postJobs from "lib/postJobs";
 import getJobs from "lib/getJobs";
 
-type Response = {
-  success: boolean;
-  statusCode: number;
-  message: string;
-  jobs: any[];
-};
+import { Response } from "../../types";
+import AlgoliaIndexing from "lib/algolia";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Partial<Response>>
 ) {
+
   try {
     if (req.method === "POST") {
-      await postJobs();
-      res.status(200).json({ message: "Successfully posted jobs." });
+      postJobs();
+      AlgoliaIndexing();
+      res.status(200).json({ message: "Successful." });
     } else if (req.method === "GET") {
-      let jobs = await getJobs({});
-      res.status(200).json({ message: "Successfully retrieved jobs.", jobs });
+      let result = await getJobs({});
+      res.status(200).json({ message: "Successful.", result });
     } else {
       res.setHeader("Allow", "GET");
       res.setHeader("Allow", "POST");

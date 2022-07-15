@@ -1,9 +1,10 @@
 import {
   Autocomplete,
   Container,
-  TextInput,
+  Pagination,
   Checkbox,
   Button,
+  Center,
   Select,
   Group,
   Stack,
@@ -14,11 +15,14 @@ import { colorMixer } from "src/util";
 
 import { PageSection } from "./PageSection";
 import { PageHeader } from "./PageHeader";
+import { JobsPage } from "../../../types";
 
-interface JobsComponentProps {
-  jobs: any[];
-}
-export const JobsComponent = ({ jobs }: JobsComponentProps) => {
+interface JobsComponentProp extends JobsPage {}
+
+export const JobsComponent = (props: JobsComponentProp) => {
+  const { jobs, pagination } = props;
+  let { page, total, lastPage } = pagination;
+
   return (
     <Container size="xl">
       <PageHeader>
@@ -31,7 +35,7 @@ export const JobsComponent = ({ jobs }: JobsComponentProps) => {
                 limit={2}
                 placeholder="Search for jobs"
                 icon={<BiSearch size={18} />}
-                data={['React', 'Angular', 'Svelte', 'Vue']}
+                data={["React", "Angular", "Svelte", "Vue"]}
               />
             </Grid.Col>
             <Grid.Col span={2}>
@@ -99,7 +103,10 @@ export const JobsComponent = ({ jobs }: JobsComponentProps) => {
           </Group>
         </Stack>
       </PageHeader>
-      <PageSection jobs={jobs} />
+      <PageSection jobs={jobs} total={total} />
+      <Center>
+        <Pagination page={page} total={lastPage} size="sm" py={50} />
+      </Center>
     </Container>
   );
 };

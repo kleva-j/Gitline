@@ -4,18 +4,14 @@ import { IoFilter } from "react-icons/io5";
 import { useState } from "react";
 import { JobCard } from "./Card";
 
-interface PageSectionProps {
-  jobs: any[];
-}
-
-export const PageSection = ({ jobs = [] }: PageSectionProps) => {
-  let numberOfJobs = jobs.length;
+export const PageSection = (props: { jobs: any[], total: number }) => {
+  let { jobs = [], total } = props;
   const [value, setValue] = useState<string>("recent");
 
   return (
     <Stack>
       <Group>
-        <Text>{numberOfJobs} Jobs</Text>
+        <Text>{total} Jobs</Text>
         <Select
           placeholder="Sort By"
           size="xs"
