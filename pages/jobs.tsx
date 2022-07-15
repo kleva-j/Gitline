@@ -1,27 +1,28 @@
 import { GetServerSideProps, NextPage } from "next";
 import { JobsComponent } from "src/components/Jobs";
-import { GroupByKey } from "src/util";
 
 import getJobs from "lib/getJobs";
 
-interface JobsPage {
-  jobs: any[];
-  locations: string[];
-  country: string[];
-}
+import { JobsPage } from "../types";
+import { queryAggregator } from "src/util";
 
-const Jobs: NextPage<JobsPage> = ({ jobs }) => <JobsComponent jobs={jobs} />;
+const Jobs: NextPage<JobsPage> = (props) => <JobsComponent {...props} />;
 
-export const getServerSideProps: GetServerSideProps = async ({ res }) => {
+type ServerSideProps = GetServerSideProps<JobsPage>;
+
+export const getServerSideProps: ServerSideProps = async ({ res, query }) => {
   res.setHeader(
     "Cache-Control",
     "public, s-maxage=10, stale-while-revalidate=59"
   );
-  let jobs: any[] = await getJobs({ });
-  jobs = jobs.map(({ _id, ...rest }) => ({...rest}));
+
+  let { jobs, pagination } = await getJobs(queryAggregator(query));
 
   return {
-    props: { jobs, ...GroupByKey(jobs, "location", "country") },
+    props: {
+      jobs: jobs.map(({ _id, ...rest }: any) => ({ ...rest })),
+      pagination,
+    },
   };
 };
 

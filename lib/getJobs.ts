@@ -1,21 +1,24 @@
 import clientPromise from "./mongodb";
-
-interface params {
-  offset?: number;
-  limit?: number;
-}
+import { Params } from '../types';
 
 export default async function getJobs({
   offset = 0,
   limit = 12,
-}: params): Promise<any> {
+}: Params): Promise<any> {
   const client = await clientPromise;
   try {
     const collection = client.db("gitline-sample").collection("jobs");
-    const results = await collection
-      .aggregate([{ $limit: limit }, { $skip: offset }])
-      .toArray();
-    return results;
+    const results = await collection.aggregate([
+      { $limit: limit },
+      { $skip: offset },
+    ]);
+    const total = await collection.count();
+    let page = (offset + limit) / limit;
+    let lastPage = Math.ceil(total / limit);
+    return {
+      jobs: await results.toArray(),
+      pagination: { page, lastPage, isLastPage: page === lastPage, total },
+    };
   } catch (err) {
     throw err;
   }
