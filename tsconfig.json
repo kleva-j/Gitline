@@ -20,15 +20,16 @@
       "src/*": ["src/*"],
       "lib/*": ["lib/*"],
       "utils/*": ["src/utils/*"],
-      "types/*": ["types/*"],
       "pages/*": ["pages/*"],
       "styles/*": ["styles/*"],
+      "types/*": ["types/*"],
       "@/layout/*": ["layout/*"],
       "modules/*": ["modules/*"],
       "context/*": ["context/*"],
       "configs/*": ["configs/*"],
+      "@services/*": ["services/*"],
       "components/*": ["components/*"],
-      "generated": ["generated/graphql"]
+      "generated": ["generated/graphql"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
