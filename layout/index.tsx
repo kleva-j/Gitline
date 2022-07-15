@@ -2,11 +2,7 @@ import { AppShell, useMantineTheme } from "@mantine/core";
 import { FooterMenu, PageHeader } from "src/layout";
 import { ReactNode } from "react";
 
-interface LayoutProps {
-  children?: ReactNode;
-}
-
-export const Layout = ({ children }: LayoutProps) => {
+export const Layout = (props: { children?: ReactNode }) => {
   const theme = useMantineTheme();
   return (
     <AppShell
@@ -22,7 +18,7 @@ export const Layout = ({ children }: LayoutProps) => {
       header={<PageHeader />}
       footer={<FooterMenu />}
     >
-      {children}
+      {props.children}
     </AppShell>
   );
 };

@@ -1,12 +1,8 @@
 import { Stack, Text, Title, Space, useMantineTheme } from "@mantine/core";
-import { ReactNode } from "react";
 import { colorMixer } from "src/util";
+import { ReactNode } from "react";
 
-interface PageHeaderProps {
-  children?: ReactNode;
-}
-
-export const PageHeader = ({ children }: PageHeaderProps) => {
+export const PageHeader = (props: { children?: ReactNode }) => {
   const theme = useMantineTheme();
   const { dark } = colorMixer(theme);
   return (
@@ -27,7 +23,7 @@ export const PageHeader = ({ children }: PageHeaderProps) => {
       </Text>
 
       <Space />
-      {children}
+      {props.children}
     </Stack>
   );
 };

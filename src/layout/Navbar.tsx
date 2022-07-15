@@ -1,10 +1,7 @@
 import { Navbar, Text } from "@mantine/core";
 
-interface NavbarMenuprops {
-  opened: boolean;
-}
-
-export const NavbarMenu = ({ opened }: NavbarMenuprops) => {
+export const NavbarMenu = (props: { opened: boolean }) => {
+  let { opened } = props;
   return (
     <Navbar
       p="md"
