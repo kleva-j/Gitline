@@ -12,6 +12,9 @@ export default async function AlgoliaIndexing() {
 
   let { jobs } = await fetchJobs(process.env.NEXT_PUBLIC_DEVITJOBS ?? "")({});
   await index
-    .saveObjects(jobs.job, { autoGenerateObjectIDIfNotExist: true })
+    .replaceAllObjects(jobs.job, {
+      autoGenerateObjectIDIfNotExist: true,
+      safe: true,
+    })
     .wait();
 }
