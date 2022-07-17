@@ -42,7 +42,7 @@ export type jobsType = Record<string, any>;
 
 export type JobSources = {
   [key: string]: (params: AxiosRequestConfig) => Promise<Job>;
-}
+};
 
 export interface Job {
   id: string;
@@ -69,7 +69,7 @@ export interface Job {
 
 export enum sortBy {
   best_match = "best_match",
-  most_recent = "most_recent"
+  most_recent = "most_recent",
 }
 
 export interface Query extends ParsedUrlQuery {
@@ -90,10 +90,16 @@ export enum match {
   jobtype = "jobtype",
   location = "location",
   description = "description",
-} 
+}
 
 export type aggregatedQuery = {
   offset: number;
   limit: number;
   match?: $match;
-}
+};
+
+export type timerFn = (
+  fn: (...args: any[]) => void,
+  ms: number,
+  immFn?: () => void | null
+) => (...args: any[]) => void;

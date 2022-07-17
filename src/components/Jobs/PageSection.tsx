@@ -11,7 +11,7 @@ export const PageSection = (props: { jobs: any[], total: number }) => {
   return (
     <Stack>
       <Group>
-        <Text>{total} Jobs</Text>
+        <Text>{total} Recommended Jobs</Text>
         <Select
           placeholder="Sort By"
           size="xs"
