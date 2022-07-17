@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { MantineTheme } from "@mantine/core";
 
-import { aggregatedQuery, Query, sortBy, $match } from "../../types";
+import { aggregatedQuery, Query, timerFn, $match } from "../../types";
 
 export function fetchJobs(url: string) {
   return async function (params: AxiosRequestConfig) {
@@ -66,4 +66,19 @@ export const queryAggregator = (query: Partial<Query>): aggregatedQuery => {
   description && (match["description"] = description);
 
   return { limit, offset, match };
+};
+
+export const timer: timerFn = (fn, ms = 500, immFn) => {
+  let timer: any = null;
+  return (...args) => {
+    if (typeof immFn === 'function') {
+      immFn();
+    }
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      fn.apply(Function, args);
+    }, ms);
+  };
 };
