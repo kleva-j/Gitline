@@ -4,8 +4,11 @@ import redis from "lib/redis";
 export async function middleware(req: NextRequest) {
   const url = req.nextUrl.clone();
   const response = NextResponse.next();
-  
-  if (url.pathname.startsWith("/api/jobs")) {
+
+  if (
+    url.pathname.startsWith("/api/jobs") ||
+    url.pathname.startsWith("/jobs")
+  ) {
     let { geo, ip, url } = req;
     const ua = userAgent(req);
     const time = new Date(Date.now()).toLocaleDateString();

@@ -1,5 +1,6 @@
 import { Container, Stack, Title, Table } from "@mantine/core";
 import { GetServerSideProps, NextPage } from "next";
+import { colorMixer } from "src/util";
 
 import redis from "lib/redis";
 
@@ -14,10 +15,14 @@ type log = {
   ip: string;
   time: string;
   ua: {
-    browser: string;
+    browser: {
+      name: string;
+    };
     cpu: string;
     isBot: boolean;
-    os: string;
+    os: {
+      name: string;
+    };
     ua: string;
   };
   url: string;
@@ -32,7 +37,34 @@ const Logs: NextPage<LogsPageProps> = ({ logs }) => {
     <Container size="xl">
       <Stack pt="4rem">
         <Title order={1}>Requests Logs</Title>
-        <Table horizontalSpacing="xl" verticalSpacing="xs" highlightOnHover>
+        <Table
+          horizontalSpacing="xl"
+          verticalSpacing="xs"
+          highlightOnHover
+          sx={(theme) => ({
+            td: {
+              color: colorMixer(theme).dark,
+              "&.ip": {
+                color: colorMixer(theme, "red", "orange").dark
+              },
+              "&.country": {
+                color: colorMixer(theme, "lime", "violet").dark
+              },
+              "&.city": {
+                color: colorMixer(theme, "violet", "lime").dark
+              },
+              "&.browser": {
+                color: colorMixer(theme, "cyan", "grape").dark
+              },
+              "&.os": {
+                color: colorMixer(theme, "grape", "pink").dark
+              },
+              "&.isBot": {
+                color: colorMixer(theme, "green", "gray").dark
+              },
+            },
+          })}
+        >
           <thead>
             <tr>
               <th>Url</th>
@@ -43,21 +75,25 @@ const Logs: NextPage<LogsPageProps> = ({ logs }) => {
               <th>City</th>
               <th>Longitude</th>
               <th>Latitude</th>
+              <th>Browser</th>
+              <th>OS</th>
               <th>IsBot</th>
             </tr>
           </thead>
           <tbody>
             {logs.map(({ url, ip, time, geo, ua }, index) => (
               <tr key={url + index}>
-                <td>{url}</td>
-                <td>{ip}</td>
-                <td>{time}</td>
-                <td>{geo.country}</td>
-                <td>{geo.region}</td>
-                <td>{geo.city}</td>
-                <td>{geo.longitude}</td>
-                <td>{geo.latitude}</td>
-                <td>{String(ua.isBot)}</td>
+                <td className="url">{url}</td>
+                <td className="ip">{ip}</td>
+                <td className="time">{time}</td>
+                <td className="country">{geo.country}</td>
+                <td className="region">{geo.region}</td>
+                <td className="city">{geo.city}</td>
+                <td className="lng">{geo.longitude}</td>
+                <td className="lat">{geo.latitude}</td>
+                <td className="browser">{ua.browser.name}</td>
+                <td className="os">{ua.os.name}</td>
+                <td className="isBot">{String(ua.isBot)}</td>
               </tr>
             ))}
           </tbody>
