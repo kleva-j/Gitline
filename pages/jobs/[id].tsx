@@ -7,7 +7,7 @@ const SingleJob = () => {
   )
 }
 
-export async function getStaticProps({ params }: any) {
+export async function getStaticPaths({ params }: any) {
   const { id } = params;
   return {
     props: {
