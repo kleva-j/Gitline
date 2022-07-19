@@ -1,5 +1,5 @@
 import clientPromise from "./mongodb";
-import { Params } from '../types';
+import { Params } from "../types";
 
 export default async function getJobs({
   offset = 0,
@@ -23,3 +23,14 @@ export default async function getJobs({
     throw err;
   }
 }
+
+export const getSingleJob = async ({ id }: { id: string }) => {
+  const client = await clientPromise;
+  try {
+    return {
+      job: await client.db("gitline-sample").collection("jobs").find({ id }),
+    };
+  } catch (err) {
+    throw err;
+  }
+};
