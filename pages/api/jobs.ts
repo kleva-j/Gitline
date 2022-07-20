@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { getJobs } from "lib/getJobs";
 import postJobs from "lib/postJobs";
-import getJobs from "lib/getJobs";
 
 import { Response } from "../../types";
 import AlgoliaIndexing from "lib/algolia";

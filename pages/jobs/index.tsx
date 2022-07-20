@@ -1,7 +1,7 @@
 import { GetServerSideProps, NextPage } from "next";
 import { JobsComponent } from "src/components/Jobs";
 
-import getJobs from "lib/getJobs";
+import { getJobs } from "lib/getJobs";
 
 import { JobsPage } from "../../types";
 import { queryAggregator } from "src/util";
