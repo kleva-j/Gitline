@@ -1,10 +1,15 @@
-import { ColorSchemeProvider, MantineProvider, ColorScheme } from "@mantine/core";
+import { ColorSchemeProvider, MantineProvider, ColorScheme, LoadingOverlay } from "@mantine/core";
 import { useLocalStorage, useHotkeys, useColorScheme } from "@mantine/hooks";
-import { AppProps, AppContext } from "next/app";
 import { Seo } from "src/components/Seo";
+import { AppCtx } from "src/context";
+import { AppProps } from "next/app";
+import { useState } from "react";
+
 import { Layout } from "../layout";
 
-const App = ({ Component, pageProps }: AppProps) => {
+const base = process.env.NEXT_PUBLIC_BASE_URI || "";
+
+const App = ({ Component, pageProps, router }: AppProps) => {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
     key: "gitline-color-scheme",
     defaultValue: useColorScheme(),
@@ -16,9 +21,18 @@ const App = ({ Component, pageProps }: AppProps) => {
 
   useHotkeys([["mod+J", () => toggleColorScheme()]]);
 
+  const [visible, setVisible] = useState(false);
+
   return (
-    <>
-      <Seo />
+    <AppCtx.Provider
+      value={{
+        name: "Gitline",
+        author: "kasmickleva",
+        overlayVisible: visible,
+        setOverlayVisible: (val) => setVisible(val),
+      }}
+    >
+      <Seo canonical={base + router.asPath} />
       <ColorSchemeProvider
         colorScheme={colorScheme}
         toggleColorScheme={toggleColorScheme}
@@ -26,21 +40,18 @@ const App = ({ Component, pageProps }: AppProps) => {
         <MantineProvider
           withGlobalStyles
           withNormalizeCSS
-          theme={{ colorScheme, fontFamily: 'Lato, Roboto', }}
+          theme={{ colorScheme, fontFamily: "Lato, Roboto" }}
         >
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <div style={{ position: visible ? "fixed": "relative", height: "100vh" }}>
+            <LoadingOverlay visible={visible} />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </div>
         </MantineProvider>
       </ColorSchemeProvider>
-    </>
+    </AppCtx.Provider>
   );
-};
-
-const base = process.env.BASE_URI || "";
-
-App.getInitialProps = async function ({ router }: AppContext): Promise<any> {
-  return { canonical: base + router.asPath };
 };
 
 export default App;
