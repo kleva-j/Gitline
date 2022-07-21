@@ -22,7 +22,7 @@
       "utils/*": ["src/utils/*"],
       "pages/*": ["pages/*"],
       "styles/*": ["styles/*"],
-      "types/*": ["types/*"],
+      "@types/*": ["types/*"],
       "@/layout/*": ["layout/*"],
       "modules/*": ["modules/*"],
       "context/*": ["context/*"],

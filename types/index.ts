@@ -103,3 +103,26 @@ export type timerFn = (
   ms: number,
   immFn?: () => void | null
 ) => (...args: any[]) => void;
+
+export interface JobCardProps {
+  id: string;
+  logo: string;
+  title: string;
+  jobtype: string;
+  apply_url: string;
+  category: string;
+  city: string;
+  company: string;
+  country: string;
+  description: string;
+  ispromoted: boolean;
+  link: string;
+  location: string;
+  name: string;
+  postal_code: string;
+  postcode: string;
+  pubdate: string;
+  region: string;
+  salary: string;
+  url: string;
+}
