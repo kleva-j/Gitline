@@ -24,33 +24,39 @@ const App = ({ Component, pageProps, router }: AppProps) => {
   const [visible, setVisible] = useState(false);
 
   return (
-    <AppCtx.Provider
-      value={{
-        name: "Gitline",
-        author: "kasmickleva",
-        overlayVisible: visible,
-        setOverlayVisible: (val) => setVisible(val),
-      }}
+    <ColorSchemeProvider
+      colorScheme={colorScheme}
+      toggleColorScheme={toggleColorScheme}
     >
-      <Seo canonical={base + router.asPath} />
-      <ColorSchemeProvider
-        colorScheme={colorScheme}
-        toggleColorScheme={toggleColorScheme}
+      <MantineProvider
+        withGlobalStyles
+        withNormalizeCSS
+        theme={{ colorScheme, fontFamily: "Lato, Roboto" }}
       >
-        <MantineProvider
-          withGlobalStyles
-          withNormalizeCSS
-          theme={{ colorScheme, fontFamily: "Lato, Roboto" }}
+        <AppCtx.Provider
+          value={{
+            name: "Gitline",
+            author: "kasmickleva",
+            overlayVisible: visible,
+            setOverlayVisible: (val) => setVisible(val),
+          }}
         >
-          <div style={{ position: visible ? "fixed": "relative", height: "100vh" }}>
+          <Seo canonical={base + router.asPath} />
+
+          <div
+            style={{
+              position: visible ? "fixed" : "relative",
+              height: "100vh",
+            }}
+          >
             <LoadingOverlay visible={visible} />
             <Layout>
               <Component {...pageProps} />
             </Layout>
           </div>
-        </MantineProvider>
-      </ColorSchemeProvider>
-    </AppCtx.Provider>
+        </AppCtx.Provider>
+      </MantineProvider>
+    </ColorSchemeProvider>
   );
 };
 
