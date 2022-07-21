@@ -13,10 +13,9 @@ import { useRouter } from "next/router";
 import { FiSun } from "react-icons/fi";
 
 export const PageHeader = () => {
-  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
-  const dark = colorScheme === "dark";
-  let router = useRouter();
-  let route = router.pathname.split("/")[1];
+  let { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  let [, baseRoute] = useRouter().pathname.split("/");
+  let dark = colorScheme === "dark";
 
   return (
     <Header height={70} p="md">
@@ -31,12 +30,12 @@ export const PageHeader = () => {
       >
         <Title order={3}>Gitline</Title>
         <Group>
-          {route && (
+          {baseRoute && (
             <NavLink size="lg" href="/">
               <IoHome />
             </NavLink>
           )}
-          {route !== "jobs" && <NavLink href="/jobs">Jobs</NavLink>}
+          {baseRoute !== "jobs" && <NavLink href="/jobs">Jobs</NavLink>}
           <ActionIcon
             variant="outline"
             color={dark ? "yellow" : "blue"}
