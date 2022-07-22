@@ -126,3 +126,31 @@ export interface JobCardProps {
   salary: string;
   url: string;
 }
+
+export type log = {
+  geo: {
+    city: string;
+    country: string;
+    latitude: string;
+    longitude: string;
+    region: string;
+  };
+  ip: string;
+  time: string;
+  ua: {
+    browser: {
+      name: string;
+    };
+    cpu: string;
+    isBot: boolean;
+    os: {
+      name: string;
+    };
+    ua: string;
+  };
+  url: string;
+};
+
+export interface LogsPageProps {
+  logs: log[];
+}
