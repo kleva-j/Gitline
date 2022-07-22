@@ -3,9 +3,11 @@ import { useLocalStorage, useHotkeys, useColorScheme } from "@mantine/hooks";
 import { Seo } from "src/components/Seo";
 import { AppCtx } from "src/context";
 import { AppProps } from "next/app";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Layout } from "../layout";
+
+import Router from "next/router";
 
 const base = process.env.NEXT_PUBLIC_BASE_URI || "";
 
@@ -22,6 +24,20 @@ const App = ({ Component, pageProps, router }: AppProps) => {
   useHotkeys([["mod+J", () => toggleColorScheme()]]);
 
   const [visible, setVisible] = useState(false);
+
+  const handleChange = (value: boolean) => () => setVisible(value);
+
+  useEffect(() => {
+    Router.events.on("routeChangeStart", handleChange(true));
+    Router.events.on("routeChangeComplete", handleChange(false));
+    Router.events.on("routeChangeError", handleChange(false));
+
+    return () => {
+      Router.events.off("routeChangeStart", handleChange(false));
+      Router.events.off("routeChangeComplete", handleChange(false));
+      Router.events.off("routeChangeError", handleChange(false));
+    };
+  }, []);
 
   return (
     <ColorSchemeProvider

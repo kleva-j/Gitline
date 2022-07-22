@@ -1,8 +1,6 @@
 import { Container, Paper, Text, Title, Button } from "@mantine/core";
-import { useEffect, useContext } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { colorMixer } from "src/util";
-import { AppCtx } from "src/context";
 
 import { JobCardProps } from "../../../types";
 
@@ -12,12 +10,6 @@ interface JobProps extends JobCardProps {}
 
 export const Job = (props: JobProps) => {
   const { title, description } = props;
-
-  const { setOverlayVisible } = useContext(AppCtx);
-
-  useEffect(() => {
-    setOverlayVisible(false);
-  }, []);
 
   return (
     <Container>
