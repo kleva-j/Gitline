@@ -1,103 +1,36 @@
-import { Container, Stack, Title, Table } from "@mantine/core";
+import { Pagination, Container, Center, Stack, Title } from "@mantine/core";
 import { GetServerSideProps, NextPage } from "next";
-import { colorMixer } from "src/util";
+import { LogsComponent } from "src/components/Logs";
+import { useRouter } from "next/router";
 
 import redis from "lib/redis";
 
-type log = {
-  geo: {
-    city: string;
-    country: string;
-    latitude: string;
-    longitude: string;
-    region: string;
-  };
-  ip: string;
-  time: string;
-  ua: {
-    browser: {
-      name: string;
-    };
-    cpu: string;
-    isBot: boolean;
-    os: {
-      name: string;
-    };
-    ua: string;
-  };
-  url: string;
-};
-
-interface LogsPageProps {
-  logs: log[];
-}
+import { LogsPageProps } from "../types";
 
 const Logs: NextPage<LogsPageProps> = ({ logs }) => {
+  let { query, push } = useRouter();
+  let { page = 1 } = query;
+  let limit = 10, offset = +page * limit - limit;
+
+  const handleNavigate = (num: number) => {
+    let url = `/logs?page=${num}`;
+    push(url, url, { shallow: true });
+  };
+
   return (
     <Container size="xl">
-      <Stack pt="4rem">
+      <Stack pt="2rem">
         <Title order={1}>Requests Logs</Title>
-        <Table
-          horizontalSpacing="xl"
-          verticalSpacing="xs"
-          highlightOnHover
-          sx={(theme) => ({
-            td: {
-              color: colorMixer(theme).dark,
-              "&.ip": {
-                color: colorMixer(theme, "red", "orange").dark
-              },
-              "&.country": {
-                color: colorMixer(theme, "lime", "violet").dark
-              },
-              "&.city": {
-                color: colorMixer(theme, "violet", "lime").dark
-              },
-              "&.browser": {
-                color: colorMixer(theme, "cyan", "grape").dark
-              },
-              "&.os": {
-                color: colorMixer(theme, "grape", "pink").dark
-              },
-              "&.isBot": {
-                color: colorMixer(theme, "green", "gray").dark
-              },
-            },
-          })}
-        >
-          <thead>
-            <tr>
-              <th>Url</th>
-              <th>Ip Address</th>
-              <th>Time</th>
-              <th>Country</th>
-              <th>Region</th>
-              <th>City</th>
-              <th>Longitude</th>
-              <th>Latitude</th>
-              <th>Browser</th>
-              <th>OS</th>
-              <th>IsBot</th>
-            </tr>
-          </thead>
-          <tbody>
-            {logs.map(({ url, ip, time, geo, ua }, index) => (
-              <tr key={url + index}>
-                <td className="url">{url}</td>
-                <td className="ip">{ip}</td>
-                <td className="time">{time}</td>
-                <td className="country">{geo.country}</td>
-                <td className="region">{geo.region}</td>
-                <td className="city">{geo.city}</td>
-                <td className="lng">{geo.longitude}</td>
-                <td className="lat">{geo.latitude}</td>
-                <td className="browser">{ua.browser.name}</td>
-                <td className="os">{ua.os.name}</td>
-                <td className="isBot">{String(ua.isBot)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        <LogsComponent logs={logs.slice(offset, offset + limit)} />
+        <Center>
+          <Pagination
+            page={+page}
+            total={Math.ceil(logs.length / limit)}
+            onChange={handleNavigate}
+            size="md"
+            py={10}
+          />
+        </Center>
       </Stack>
     </Container>
   );
