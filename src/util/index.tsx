@@ -49,7 +49,7 @@ export const queryAggregator = (query: Partial<Query>): aggregatedQuery => {
   let { page = "1", search_term, category, is_remote } = query;
   let categories: any = {};
   let match: $match = {};
-  const $limit = 12;
+  const $limit = 9;
 
   category &&
     (category as string).split(",").forEach((val: string) => {

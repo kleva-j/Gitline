@@ -16,7 +16,7 @@ export const PageHeader = (props: { children?: ReactNode }) => {
         paddingTop: "4rem",
       })}
     >
-      <Title order={1}>Explore <Text color={dark} inherit component="span">Popular Jobs</Text></Title>
+      <Title order={1}>Explore <Text color={dark} inherit component="span">Popular Jobs</Text> in the UK</Title>
       <Text color="gray">
         Discover jobs most relevant to you by Experience level, salary,
         location, job type, etc.

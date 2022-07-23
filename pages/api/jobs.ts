@@ -1,6 +1,6 @@
 import { fetchJobs, queryAggregator, concatQuery } from "src/util";
 import { NextApiRequest, NextApiResponse } from "next";
-import { Response, JobResult } from "../../types";
+import { Response } from "../../types";
 import { getJobs } from "lib/getJobs";
 
 import AlgoliaIndexing from "lib/algolia";
