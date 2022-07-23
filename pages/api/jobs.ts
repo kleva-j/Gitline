@@ -1,27 +1,44 @@
+import { fetchJobs, queryAggregator, concatQuery } from "src/util";
 import { NextApiRequest, NextApiResponse } from "next";
+import { Response, JobResult } from "../../types";
 import { getJobs } from "lib/getJobs";
-import postJobs from "lib/postJobs";
 
-import { Response } from "../../types";
 import AlgoliaIndexing from "lib/algolia";
+import postJobs from "lib/postJobs";
+import redis from "lib/redis";
+
+let URL = process.env.NEXT_PUBLIC_DEVITJOBS ?? "";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Partial<Response>>
 ) {
+  if (!["POST", "GET"].includes(req.method ?? "")) {
+    res.setHeader("Allow", "GET");
+    res.setHeader("Allow", "POST");
+    res.status(405).end("Method Not Allowed");
+  }
 
   try {
     if (req.method === "POST") {
-      postJobs();
-      AlgoliaIndexing();
+      let { jobs } = await fetchJobs(URL)({});
+      postJobs(jobs);
+      AlgoliaIndexing(jobs);
       res.status(200).json({ message: "Successful." });
-    } else if (req.method === "GET") {
-      let result = await getJobs({});
-      res.status(200).json({ message: "Successful.", result });
-    } else {
-      res.setHeader("Allow", "GET");
-      res.setHeader("Allow", "POST");
-      res.status(405).end("Method Not Allowed");
+    }
+    if (req.method === "GET") {
+      let key = concatQuery(req.query);
+      let result: any = await redis.get(key);
+      if (!result) {
+        result = await getJobs(queryAggregator(req.query));
+      }
+      redis.setex(key, 600, JSON.stringify(result));
+      res
+        .status(200)
+        .json({
+          message: "Successful.",
+          result: typeof result === "string" ? JSON.parse(result) : result,
+        });
     }
   } catch (err) {
     if (err instanceof Error) {

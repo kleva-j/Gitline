@@ -49,14 +49,15 @@ export const queryAggregator = (query: Partial<Query>): aggregatedQuery => {
   let { page = "1", search_term, category, is_remote } = query;
   let categories: any = {};
   let match: $match = {};
-  const limit = 12;
+  const $limit = 12;
 
-  category && (category as string).split(",").forEach((val: string) => {
-    let [key, value] = val.split(":");
-    (categories[key] = value)
-  });
+  category &&
+    (category as string).split(",").forEach((val: string) => {
+      let [key, value] = val.split(":");
+      categories[key] = value;
+    });
 
-  let offset = +page * limit - limit;
+  let $skip = +page * $limit - $limit;
   let { salary, jobtype, description } = categories;
 
   search_term && (match["title"] = search_term);
@@ -65,13 +66,13 @@ export const queryAggregator = (query: Partial<Query>): aggregatedQuery => {
   salary && (match["salary"] = salary);
   description && (match["description"] = description);
 
-  return { limit, offset, match };
+  return { $limit, $skip };
 };
 
 export const timer: timerFn = (fn, ms = 500, immFn) => {
   let timer: any = null;
   return (...args) => {
-    if (typeof immFn === 'function') {
+    if (typeof immFn === "function") {
       immFn();
     }
     if (timer) {
@@ -82,3 +83,8 @@ export const timer: timerFn = (fn, ms = 500, immFn) => {
     }, ms);
   };
 };
+
+export const concatQuery = (query: any) =>
+  Object.entries(query)
+    .map(([key, val]) => `${key}:${val}`)
+    .join("&");

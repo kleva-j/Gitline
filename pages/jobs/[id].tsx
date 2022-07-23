@@ -18,7 +18,7 @@ export async function getStaticProps({ params }: any) {
 }
 
 export async function getStaticPaths() {
-  let { jobs } = await getJobs({ limit: 12 });
+  let { jobs } = await getJobs({ $limit: 400 });
   return {
     paths: jobs.map(({ id }: any) => ({ params: { id } })),
     fallback: process.env.NODE_ENV === "development",
