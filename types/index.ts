@@ -23,8 +23,8 @@ export type Response = {
 };
 
 export interface Params {
-  offset?: number;
-  limit?: number;
+  $skip?: number;
+  $limit?: number;
 }
 
 export interface JobsPage {
@@ -93,8 +93,8 @@ export enum match {
 }
 
 export type aggregatedQuery = {
-  offset: number;
-  limit: number;
+  $skip: number;
+  $limit: number;
   match?: $match;
 };
 

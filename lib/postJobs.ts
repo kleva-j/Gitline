@@ -1,14 +1,11 @@
-import { fetchJobs } from "src/util";
-
 import clientPromise from "./mongodb";
 
-export default async function postJobs(): Promise<any> {
+export default async function postJobs({ job }: any): Promise<any> {
   const client = await clientPromise;
   try {
-    let { jobs } = await fetchJobs(process.env.NEXT_PUBLIC_DEVITJOBS ?? "")({});
     const collection = await client.db("gitline-sample").collection("jobs");
     await collection.deleteMany();
-    await collection.insertMany(jobs.job, {});
+    await collection.insertMany(job, {});
   } catch (err) {
     throw err;
   }
