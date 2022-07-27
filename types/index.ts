@@ -25,11 +25,13 @@ export type Response = {
 export interface Params {
   $skip?: number;
   $limit?: number;
+  $match?: $match;
 }
 
 export interface JobsPage {
   jobs: Job[];
   pagination: PaginationData;
+  location: string;
 }
 
 export interface NavLinkProps {
@@ -78,6 +80,8 @@ export interface Query extends ParsedUrlQuery {
   search_term: string;
   page: string;
   is_remote: string;
+  location: string;
+  country: string;
 }
 
 export type $match = {
@@ -87,6 +91,7 @@ export type $match = {
 export enum match {
   title = "title",
   salary = "salary",
+  country = "country",
   jobtype = "jobtype",
   location = "location",
   description = "description",
@@ -95,7 +100,7 @@ export enum match {
 export type aggregatedQuery = {
   $skip: number;
   $limit: number;
-  match?: $match;
+  $match?: $match;
 };
 
 export type timerFn = (

@@ -1,28 +1,49 @@
+import { Center, Select, Title } from "@mantine/core";
 import { GetServerSideProps, NextPage } from "next";
-import { JobsComponent } from "src/components/Jobs";
+import { useRouter } from "next/router";
 
-import { getJobs } from "lib/getJobs";
+export let locationMap: Record<string, string> = {
+  uk: "United Kingdom",
+  us: "United States",
+  nl: "Netherlands",
+  sw: "Switzerland",
+  de: "Germany",
+  ro: "Romania",
+};
 
-import { JobsPage } from "../../types";
-import { queryAggregator } from "src/util";
+const Jobs: NextPage = () => {
+  const router = useRouter();
 
-const Jobs: NextPage<JobsPage> = (props) => <JobsComponent {...props} />;
-
-type ServerSideProps = GetServerSideProps<JobsPage>;
-
-export const getServerSideProps: ServerSideProps = async ({ res, query }) => {
-  res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=59"
+  return (
+    <Center mt="4rem">
+      <Title order={1}>Please set location</Title>
+      <Select
+        label="Select a preferred location for Tech jobs"
+        placeholder="Pick one"
+        data={Object.entries(locationMap).map(([key, value]) => ({
+          value: key,
+          label: value,
+        }))}
+        onChange={(value) => router.push(`/jobs/${value}`)}
+      />
+    </Center>
   );
+};
 
-  let { jobs, pagination } = await getJobs(queryAggregator(query));
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const { location = "" } = req.cookies;
+  let hasKeys = Object.keys(locationMap).includes(location);
 
   return {
-    props: {
-      jobs: jobs.map(({ _id, ...rest }: any) => ({ ...rest })),
-      pagination,
-    },
+    ...(hasKeys
+      ? {
+          redirect: {
+            permanent: true,
+            destination: `/jobs/${location}`,
+          },
+        }
+      : {}),
+    props: {},
   };
 };
 

@@ -1,9 +1,9 @@
 import { ColorSchemeProvider, MantineProvider, ColorScheme, LoadingOverlay } from "@mantine/core";
 import { useLocalStorage, useHotkeys, useColorScheme } from "@mantine/hooks";
+import { useEffect, useState } from "react";
 import { Seo } from "src/components/Seo";
 import { AppCtx } from "src/context";
 import { AppProps } from "next/app";
-import { useEffect, useState } from "react";
 
 import { Layout } from "../layout";
 
@@ -14,7 +14,7 @@ const base = process.env.NEXT_PUBLIC_BASE_URI || "";
 const App = ({ Component, pageProps, router }: AppProps) => {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
     key: "gitline-color-scheme",
-    defaultValue: useColorScheme(),
+    defaultValue: useColorScheme("light"),
     getInitialValueInEffect: true,
   });
 

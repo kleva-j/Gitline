@@ -2,7 +2,7 @@ import clientPromise from "./mongodb";
 import { Params } from "../types";
 
 export const getJobs = async (params: Params): Promise<any> => {
-  let { $skip = 0, $limit = 12 } = params;
+  let { $skip = 0, $limit = 12, $match } = params;
   const client = await clientPromise;
   try {
     const collection = client.db("gitline-sample").collection("jobs");
@@ -10,7 +10,7 @@ export const getJobs = async (params: Params): Promise<any> => {
     let page = ($skip + $limit) / $limit;
     let lastPage = Math.ceil(total / $limit);
     return {
-      jobs: await collection.aggregate([{ $skip }, { $limit }]).toArray(),
+      jobs: await collection.aggregate([{ $match }, { $skip }, { $limit }]).toArray(),
       pagination: { page, lastPage, isLastPage: page === lastPage, total },
     };
   } catch (err) {

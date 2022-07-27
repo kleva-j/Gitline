@@ -1,20 +1,20 @@
 import { Pagination, Container, Center, Stack } from "@mantine/core";
+import { useRouter } from "next/router";
 
 import { PageSection } from "./PageSection";
 import { JobFilters } from "./JobFilters";
 import { PageHeader } from "./PageHeader";
 import { JobsPage } from "../../../types";
 import { SearchBar } from "./Searchbar";
-import { useRouter } from "next/router";
 
 interface JobsComponentProp extends JobsPage {}
 
 export const JobsComponent = (props: JobsComponentProp) => {
   const { jobs, pagination } = props;
   let { page, total, lastPage } = pagination;
-  const router = useRouter();
+  const { query: { location }, push } = useRouter();
 
-  const handleNavigate = (page: number) => router.push(`/jobs?page=${page}`);
+  const handleNavigate = (page: number) => push(`/jobs/${location}?page=${page}`);
 
   return (
     <Container size="xl">
