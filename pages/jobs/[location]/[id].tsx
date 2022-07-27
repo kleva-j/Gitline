@@ -2,7 +2,7 @@ import { getJobs, getSingleJob } from "lib/getJobs";
 import { Job } from "src/components/Jobs/Job";
 import { NextPage } from "next";
 
-import { JobCardProps } from "../../types";
+import { JobCardProps } from "../../../types";
 
 const SingleJob: NextPage<{ job: JobCardProps }> = (props) => <Job {...props.job} />;
 

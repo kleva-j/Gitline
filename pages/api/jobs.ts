@@ -1,4 +1,4 @@
-import { fetchJobs, queryAggregator, concatQuery } from "src/util";
+import { queryAggregator, concatQuery, fetchAllJobs } from "src/util";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Response } from "../../types";
 import { getJobs } from "lib/getJobs";
@@ -6,8 +6,6 @@ import { getJobs } from "lib/getJobs";
 import AlgoliaIndexing from "lib/algolia";
 import postJobs from "lib/postJobs";
 import redis from "lib/redis";
-
-let URL = process.env.NEXT_PUBLIC_DEVITJOBS ?? "";
 
 export default async function handler(
   req: NextApiRequest,
@@ -21,10 +19,11 @@ export default async function handler(
 
   try {
     if (req.method === "POST") {
-      let { jobs } = await fetchJobs(URL)({});
-      postJobs(jobs);
-      AlgoliaIndexing(jobs);
-      res.status(200).json({ message: "Successful." });
+      // let { jobs } = await fetchJobs(UK_JOBS_URL)({});
+      // postJobs(jobs);
+      // AlgoliaIndexing(jsonJobs);
+      // let result: any = await fetchAllJobs();
+      res.status(200).json({ message: "Successful" });
     }
     if (req.method === "GET") {
       let key = concatQuery(req.query);
