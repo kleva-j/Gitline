@@ -14,7 +14,7 @@ const base = process.env.NEXT_PUBLIC_BASE_URI || "";
 const App = ({ Component, pageProps, router }: AppProps) => {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
     key: "gitline-color-scheme",
-    defaultValue: useColorScheme("light"),
+    defaultValue: useColorScheme("dark"),
     getInitialValueInEffect: true,
   });
 

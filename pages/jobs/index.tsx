@@ -1,4 +1,4 @@
-import { Center, Select, Title } from "@mantine/core";
+import { Center, Select, Stack, Title } from "@mantine/core";
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 
@@ -16,16 +16,18 @@ const Jobs: NextPage = () => {
 
   return (
     <Center mt="4rem">
-      <Title order={1}>Please set location</Title>
-      <Select
-        label="Select a preferred location for Tech jobs"
-        placeholder="Pick one"
-        data={Object.entries(locationMap).map(([key, value]) => ({
-          value: key,
-          label: value,
-        }))}
-        onChange={(value) => router.push(`/jobs/${value}`)}
-      />
+      <Stack>
+        <Title order={1}>Select a preferred location</Title>
+        <Select
+          // label="Select a preferred location for Tech jobs"
+          placeholder="Pick one"
+          data={Object.entries(locationMap).map(([key, value]) => ({
+            value: key,
+            label: value,
+          }))}
+          onChange={(value) => router.push(`/jobs/${value}`)}
+        />
+      </Stack>
     </Center>
   );
 };

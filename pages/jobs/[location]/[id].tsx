@@ -1,6 +1,6 @@
+import { NextPage, GetStaticPaths, GetStaticProps } from "next";
 import { getJobs, getSingleJob } from "lib/getJobs";
 import { Job } from "src/components/Jobs/Job";
-import { NextPage } from "next";
 
 import { JobCardProps } from "../../../types";
 import { locationMap } from "..";
@@ -9,7 +9,7 @@ const SingleJob: NextPage<{ job: JobCardProps }> = (props) => (
   <Job {...props.job} />
 );
 
-export async function getStaticProps({ params }: any) {
+export const getStaticProps: GetStaticProps = async ({ params }: any) => {
   try {
     const { job } = await getSingleJob({ id: params.id });
     if (!job) return { notFound: true };
@@ -18,11 +18,11 @@ export async function getStaticProps({ params }: any) {
   } catch (error) {
     return { notFound: true };
   }
-}
+};
 
 let locations = Object.keys(locationMap);
 
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
   let alljobs = (
     await Promise.all(
       locations.map(
@@ -40,8 +40,8 @@ export async function getStaticPaths() {
 
   return {
     paths: alljobs,
-    fallback: process.env.NODE_ENV === "development",
+    fallback: false,
   };
-}
+};
 
 export default SingleJob;
