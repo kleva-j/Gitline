@@ -3,8 +3,11 @@ import { Job } from "src/components/Jobs/Job";
 import { NextPage } from "next";
 
 import { JobCardProps } from "../../../types";
+import { locationMap } from "..";
 
-const SingleJob: NextPage<{ job: JobCardProps }> = (props) => <Job {...props.job} />;
+const SingleJob: NextPage<{ job: JobCardProps }> = (props) => (
+  <Job {...props.job} />
+);
 
 export async function getStaticProps({ params }: any) {
   try {
@@ -17,10 +20,26 @@ export async function getStaticProps({ params }: any) {
   }
 }
 
+let locations = Object.keys(locationMap);
+
 export async function getStaticPaths() {
-  let { jobs } = await getJobs({ $limit: 400 });
+  let alljobs = (
+    await Promise.all(
+      locations.map(
+        async (item) =>
+          await getJobs({ $match: { country: locationMap[item] }, $limit: 400 })
+      )
+    )
+  )
+    .map(({ jobs }, index) =>
+      jobs.map(({ id }: any) => ({
+        params: { id, location: locations[index] },
+      }))
+    )
+    .flat();
+
   return {
-    paths: jobs.map(({ id }: any) => ({ params: { id } })),
+    paths: alljobs,
     fallback: process.env.NODE_ENV === "development",
   };
 }

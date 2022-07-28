@@ -1,4 +1,4 @@
-import { queryAggregator, concatQuery, fetchAllJobs } from "src/util";
+import { queryAggregator, concatQuery } from "src/util";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Response } from "../../types";
 import { getJobs } from "lib/getJobs";

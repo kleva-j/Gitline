@@ -9,6 +9,7 @@ import {
   Grid,
 } from "@mantine/core";
 import { formatSalary } from "src/util";
+import { useRouter } from 'next/router';
 
 import { JobCardProps } from "../../../types";
 
@@ -20,8 +21,10 @@ interface Props extends JobCardProps {
 
 export const JobCard = (props: Props) => {
   const { id, title, logo, company, salary, onClick } = props;
+  let { query: { location } } = useRouter();
+
   return (
-    <Link href={`/jobs/${id}`}>
+    <Link href={`/jobs/${location}/${id}`}>
       <Card
         shadow="sm"
         p="lg"
