@@ -85,7 +85,7 @@ export const timer: timerFn = (fn, ms = 500, immFn) => {
   };
 };
 
-export const concatQuery = (query: any) =>
+export const concatQuery = (query: any): any =>
   Object.entries(query)
     .map(([key, val]) => `${key}:${val}`)
     .join("&");
@@ -105,8 +105,12 @@ let DE_JOBS_URL = process.env.NEXT_PUBLIC_DE_DEV_JOBS ?? "";
 
 export const fetchAllJobs = async () => {
   let urls = [
-    UK_JOBS_URL, US_JOBS_URL, SW_JOBS_URL,
-    RO_JOBS_URL, NL_JOBS_URL, DE_JOBS_URL,
+    UK_JOBS_URL,
+    US_JOBS_URL,
+    SW_JOBS_URL,
+    RO_JOBS_URL,
+    NL_JOBS_URL,
+    DE_JOBS_URL,
   ];
   return await Promise.all(urls.map(async (url) => await fetchJobs(url)({})));
 };

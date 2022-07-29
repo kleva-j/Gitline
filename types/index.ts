@@ -19,7 +19,7 @@ export type Response = {
   success: boolean;
   statusCode: number;
   message: string;
-  result: JobResult;
+  result?: JobResult;
 };
 
 export interface Params {
@@ -98,8 +98,8 @@ export enum match {
 }
 
 export type aggregatedQuery = {
-  $skip: number;
-  $limit: number;
+  $skip?: number;
+  $limit?: number;
   $match?: $match;
 };
 
