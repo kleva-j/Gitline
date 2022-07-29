@@ -17,7 +17,7 @@ const Jobs: NextPage = () => {
   return (
     <Center mt="4rem">
       <Stack>
-        <Title order={1}>Select a preferred location</Title>
+        <Title order={2}>Select a preferred location</Title>
         <Select
           // label="Select a preferred location for Tech jobs"
           placeholder="Pick one"

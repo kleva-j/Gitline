@@ -6,11 +6,26 @@ export const getJobs = async (params: Params): Promise<any> => {
   const client = await clientPromise;
   try {
     const collection = client.db("gitline-sample").collection("jobs");
-    let jobs = await collection.aggregate([{ $match }, { $skip }, { $limit }]).toArray();
+    let query = [{ $match }, { $skip }, { $limit }];
+    let jobs = await collection.aggregate(query).toArray();
     let total = await collection.count();
     let page = ($skip + $limit) / $limit;
     let lastPage = Math.ceil(total / $limit);
-    return { jobs, pagination: { page, lastPage, isLastPage: page === lastPage, total } };
+    return {
+      jobs,
+      pagination: { page, lastPage, isLastPage: page === lastPage, total },
+    };
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const getAllJobs = async (): Promise<{ jobs: any }> => {
+  const client = await clientPromise;
+  try {
+    const collection = client.db("gitline-sample").collection("jobs");
+    const jobs = await collection.find({}).toArray();
+    return { jobs };
   } catch (err) {
     throw err;
   }
