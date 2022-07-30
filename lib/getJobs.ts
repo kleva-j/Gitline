@@ -34,10 +34,8 @@ export const getAllJobs = async (): Promise<{ jobs: any }> => {
 export const getSingleJob = async ({ id }: { id: string }): Promise<any> => {
   try {
     const client = await clientPromise;
-    return (
-      (await client.db("gitline-sample").collection("jobs").findOne({ id })) ??
-      null
-    );
+    const job = await client.db("gitline-sample").collection("jobs").findOne({ id });
+    return { job }
   } catch (err) {
     throw err;
   }
