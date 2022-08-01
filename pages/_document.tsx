@@ -8,8 +8,12 @@ export default class _Document extends Document {
 
   render() {
     return (
-      <Html>
+      <Html lang="en">
         <Head />
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content="default-src 'self'; img-src 'self' https://* data:; child-src 'none'; style-src 'self' https://fonts.googleapis.com/ 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com/; script-src 'self' 'unsafe-eval';"
+        />
         <link
           rel="preconnect"
           href="https://fonts.gstatic.com"
@@ -24,11 +28,6 @@ export default class _Document extends Document {
           href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"
           rel="stylesheet"
         ></link>
-
-        <link
-          href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
         <body>
           <Main />
           <NextScript />

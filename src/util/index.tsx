@@ -9,11 +9,11 @@ export function fetchJobs(url: string) {
   };
 }
 
-export const colorMixer = (
+export function colorMixer(
   theme: MantineTheme,
   light = "blue",
   dark = "yellow"
-) => {
+) {
   let mode = theme.colorScheme === "dark" ? dark : light;
 
   return {
@@ -21,9 +21,9 @@ export const colorMixer = (
     dark: theme.colors[mode][4],
     darker: theme.fn.darken(theme.colors[mode][4], 0.09),
   };
-};
+}
 
-export const GroupByKey = (list: any[], ...args: string[]) => {
+export function GroupByKey(list: any[], ...args: string[]) {
   return list.reduce((acc, curr) => {
     let keys: { [key: string]: any[] } = { ...acc };
     args.forEach((item) => {
@@ -35,17 +35,17 @@ export const GroupByKey = (list: any[], ...args: string[]) => {
     });
     return keys;
   }, {});
-};
+}
 
-export const formatSalary = (salary: string) => {
+export function formatSalary(salary: string) {
   let [min, max] = salary
     .split("GBP per year")[0]
     .split(" - ")
     .map((val) => parseInt(val));
   return `£${min}k - £${max}k`;
-};
+}
 
-export const queryAggregator = (query: Partial<Query>): aggregatedQuery => {
+export function queryAggregator(query: Partial<Query>): aggregatedQuery {
   let { page = "1", search_term, category, is_remote, country } = query;
   let categories: any = {};
   let match: $match = {};
@@ -68,49 +68,35 @@ export const queryAggregator = (query: Partial<Query>): aggregatedQuery => {
   description && (match["description"] = description);
 
   return { $limit, $skip, $match: match };
-};
+}
 
 export const timer: timerFn = (fn, ms = 500, immFn) => {
   let timer: any = null;
   return (...args) => {
-    if (typeof immFn === "function") {
-      immFn();
-    }
-    if (timer) {
-      clearTimeout(timer);
-    }
+    if (typeof immFn === "function") immFn();
+    if (timer) clearTimeout(timer);
     timer = setTimeout(() => {
       fn.apply(Function, args);
     }, ms);
   };
 };
 
-export const concatQuery = (query: any): any =>
+export function getBaseUrl() {
+  if (typeof window !== "undefined" && window.location) {
+    return "";
+  }
+  return process.env.NODE_ENV === "development"
+    ? `http://localhost:${process.env.PORT ?? "3000"}`
+    : process.env.VERCEL_URL;
+}
+
+export const concatQuery = (query: any): string =>
   Object.entries(query)
     .map(([key, val]) => `${key}:${val}`)
     .join("&");
 
-export const setCookie = (name: string, value: string, exp: number) => {
+export const setCookie = (name: string, value: string, exp: number): string => {
   let date = new Date();
   date.setTime(date.getTime() + exp * 24 * 60 * 60 * 1000);
   return `${name}=${value}; expires=${date.toUTCString()}; path=/`;
-};
-
-let UK_JOBS_URL = process.env.NEXT_PUBLIC_UK_DEV_JOBS ?? "";
-let US_JOBS_URL = process.env.NEXT_PUBLIC_US_DEV_JOBS ?? "";
-let SW_JOBS_URL = process.env.NEXT_PUBLIC_SW_DEV_JOBS ?? "";
-let RO_JOBS_URL = process.env.NEXT_PUBLIC_RO_DEV_JOBS ?? "";
-let NL_JOBS_URL = process.env.NEXT_PUBLIC_NL_DEV_JOBS ?? "";
-let DE_JOBS_URL = process.env.NEXT_PUBLIC_DE_DEV_JOBS ?? "";
-
-export const fetchAllJobs = async () => {
-  let urls = [
-    UK_JOBS_URL,
-    US_JOBS_URL,
-    SW_JOBS_URL,
-    RO_JOBS_URL,
-    NL_JOBS_URL,
-    DE_JOBS_URL,
-  ];
-  return await Promise.all(urls.map(async (url) => await fetchJobs(url)({})));
 };

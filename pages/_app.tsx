@@ -5,11 +5,12 @@ import { Seo } from "src/components/Seo";
 import { AppCtx } from "src/context";
 import { AppProps } from "next/app";
 
+import { getBaseUrl } from "src/util";
 import { Layout } from "../layout";
 
 import Router from "next/router";
 
-const base = process.env.NEXT_PUBLIC_BASE_URI || "";
+let baseUrl = getBaseUrl();
 
 const App = ({ Component, pageProps, router }: AppProps) => {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
@@ -57,7 +58,7 @@ const App = ({ Component, pageProps, router }: AppProps) => {
             setOverlayVisible: (val) => setVisible(val),
           }}
         >
-          <Seo canonical={base + router.asPath} />
+          <Seo canonical={baseUrl + router.asPath} />
 
           <div
             style={{
