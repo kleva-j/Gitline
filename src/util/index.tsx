@@ -100,3 +100,15 @@ export const setCookie = (name: string, value: string, exp: number): string => {
   date.setTime(date.getTime() + exp * 24 * 60 * 60 * 1000);
   return `${name}=${value}; expires=${date.toUTCString()}; path=/`;
 };
+
+export const fetchAllJobs = async () => {
+  let urls = [
+    process.env.NEXT_PUBLIC_UK_DEV_JOBS ?? "",
+    process.env.NEXT_PUBLIC_US_DEV_JOBS ?? "",
+    process.env.NEXT_PUBLIC_SW_DEV_JOBS ?? "",
+    process.env.NEXT_PUBLIC_RO_DEV_JOBS ?? "",
+    process.env.NEXT_PUBLIC_NL_DEV_JOBS ?? "",
+    process.env.NEXT_PUBLIC_DE_DEV_JOBS ?? "",
+  ];
+  return await Promise.all(urls.map(async (url) => await fetchJobs(url)({})));
+};
