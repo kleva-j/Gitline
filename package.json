@@ -13,14 +13,14 @@
     "@mantine/hooks": "^4.2.12",
     "@mantine/next": "^4.2.12",
     "@upstash/redis": "^1.18.4",
-    "algoliasearch": "^4.13.1",
+    "algoliasearch": "^4.14.3",
     "axios": "^0.27.2",
     "cheerio": "^1.0.0-rc.12",
-    "mongodb": "^4.7.0",
+    "mongodb": "^4.13.0",
     "next": "12.2.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-icons": "^4.4.0"
+    "react-icons": "^4.7.1"
   },
   "devDependencies": {
     "@types/node": "18.0.0",
