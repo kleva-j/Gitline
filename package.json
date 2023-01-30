@@ -12,7 +12,7 @@
     "@mantine/core": "^4.2.12",
     "@mantine/hooks": "^4.2.12",
     "@mantine/next": "^4.2.12",
-    "@upstash/redis": "^1.9.0",
+    "@upstash/redis": "^1.18.4",
     "algoliasearch": "^4.14.3",
     "axios": "^0.27.2",
     "cheerio": "^1.0.0-rc.12",
