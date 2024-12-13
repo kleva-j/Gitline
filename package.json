@@ -14,7 +14,7 @@
     "@mantine/next": "^4.2.12",
     "@upstash/redis": "^1.18.4",
     "algoliasearch": "^4.14.3",
-    "axios": "^0.27.2",
+    "axios": "^1.6.0",
     "cheerio": "^1.0.0-rc.12",
     "mongodb": "^4.13.0",
     "next": "14.2.7",
