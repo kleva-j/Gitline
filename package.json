@@ -9,9 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@mantine/core": "^4.2.12",
+    "@mantine/core": "^7.0.0",
     "@mantine/hooks": "^4.2.12",
-    "@mantine/next": "^4.2.12",
+    "@mantine/next": "^5.0.0",
     "@upstash/redis": "^1.18.4",
     "algoliasearch": "^4.14.3",
     "axios": "^1.8.3",
